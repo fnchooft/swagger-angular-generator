@@ -71,8 +71,17 @@ function getParamSeparation(paramGroups: Dictionary<Parameter[]>): string[] {
     let def: string;
 
     if (groupName === 'query') {
-      def = 'const queryParams = new HttpParams();\n';
-      def += _.map(group, p => `queryParams.append('${p.name}', JSON.stringify(params.${p.name}));`).join('\n');
+      def = 'const queryParams = new HttpParams()\n';
+      def += _.map(group,
+              p => {
+          if (p.type === 'string') {
+            return `.set('${p.name}', params.${p.name})`;
+          } else {
+            return `.set('${p.name}', JSON.stringify(params.${p.name}))`;
+          }
+        },
+      ).join('\n');
+      def += ';';
       return def;
     }
 
