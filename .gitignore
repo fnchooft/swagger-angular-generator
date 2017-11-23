@@ -31,3 +31,4 @@ node_modules/
 # testing input/output
 conf/
 src/api/
+demo-app/client/generated

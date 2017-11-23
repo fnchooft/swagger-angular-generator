@@ -63,8 +63,12 @@ function getParamSeparation(paramGroups) {
     return _.map(paramGroups, (group, groupName) => {
         let def;
         if (groupName === 'query') {
-            def = 'const queryParams = new HttpParams();\n';
-            def += _.map(group, p => `queryParams.append('${p.name}', JSON.stringify(params.${p.name}));`).join('\n');
+            def = 'let queryParams = new HttpParams();\n';
+            group.forEach(p => {
+                def +=
+                    `if (params.${p.name} !== undefined) ` +
+                        `queryParams = queryParams.set('${p.name}', JSON.stringify(params.${p.name}));\n`;
+            });
             return def;
         }
         // only one direct body parameter is allowed

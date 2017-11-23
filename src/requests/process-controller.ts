@@ -36,6 +36,7 @@ export function processController(methods: ControllerMethod[], name: string, con
   usesGlobalType = usesGlobalType || processedMethods.some(c => c.usesGlobalType);
 
   let content = '';
+  // TODO import HttpParams only if needed
   content += 'import {HttpClient, HttpParams} from \'@angular/common/http\';\n';
   content += 'import {Injectable} from \'@angular/core\';\n';
   content += 'import {Observable} from \'rxjs/Observable\';\n';
